@@ -2,6 +2,7 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Json;
 
 namespace vh_serverless
 {
@@ -28,6 +29,10 @@ namespace vh_serverless
             {
                 return new BadRequestObjectResult("Invalid request");
             }
+
+            HttpClient httpClient = new HttpClient();
+            await httpClient.PostAsJsonAsync("https://unlam-vh-api.azurewebsites.net/orders", order);
+
             return new OkObjectResult($"¡Pedido registrado! ID={order.Id} ProductName={order.ProductName}");
         }
     }
